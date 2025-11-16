@@ -1,4 +1,41 @@
-# Welcome to your Lovable project
+# Gemini AI - App Desktop
+
+App desktop nativo do Google Gemini para macOS, Windows e Linux criado com Electron.
+
+## 🚀 Início Rápido
+
+Este projeto precisa ser exportado do Lovable para ser compilado como app desktop.
+
+### 📋 Pré-requisitos
+
+- **macOS**: 10.13 ou superior (High Sierra+)
+- **Windows**: Windows 10 ou superior  
+- **Linux**: Ubuntu 18.04+ ou equivalente
+- Node.js 18+ e npm
+
+## 📦 Como Usar
+
+1. **Exporte o projeto**: Clique em "Export to Github" no Lovable
+2. **Siga a configuração**: Leia o arquivo `SETUP-ELECTRON.md`
+3. **Compile o app**: Instruções completas em `BUILD-INSTRUCTIONS.md`
+
+## 🎯 Compatibilidade macOS
+
+✅ Funciona em **todas as versões do macOS desde 10.13**:
+- macOS 10.13 High Sierra
+- macOS 10.14 Mojave  
+- macOS 10.15 Catalina
+- macOS 11 Big Sur
+- macOS 12 Monterey
+- macOS 13 Ventura
+- macOS 14 Sonoma
+- macOS 15 Sequoia
+
+**Arquiteturas suportadas:**
+- Intel (x64)
+- Apple Silicon (arm64 - M1/M2/M3/M4)
+
+---
 
 ## Project info
 
