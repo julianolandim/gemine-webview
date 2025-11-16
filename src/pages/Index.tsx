@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
-import { Loader2 } from "lucide-react";
+import { Browser } from "@capacitor/browser";
+import { Loader2, Sparkles } from "lucide-react";
 import geminiIcon from "@/assets/gemini-icon.png";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
   const geminiUrl = "https://gemini.google.com/app?utm_source=app_launcher&utm_medium=owned&utm_campaign=base_all";
 
   useEffect(() => {
-    // Simulate initial load
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 1500);
@@ -15,33 +18,87 @@ const Index = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  const openGemini = async () => {
+    try {
+      // Abre o Gemini no navegador in-app nativo (funciona perfeitamente em Android/iOS)
+      await Browser.open({ 
+        url: geminiUrl,
+        presentationStyle: 'fullscreen',
+        toolbarColor: '#1a1625'
+      });
+    } catch (error) {
+      // Fallback para navegador web durante desenvolvimento
+      window.open(geminiUrl, '_blank');
+      toast({
+        title: "Gemini aberto",
+        description: "O Gemini foi aberto em uma nova aba. No app nativo, abrirá dentro do aplicativo.",
+      });
+    }
+  };
+
+  // Auto-open após loading
+  useEffect(() => {
+    if (!isLoading) {
+      const autoOpenTimer = setTimeout(() => {
+        openGemini();
+      }, 500);
+      return () => clearTimeout(autoOpenTimer);
+    }
+  }, [isLoading]);
+
   return (
-    <div className="flex flex-col h-screen bg-background overflow-hidden">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-background via-background to-card">
       {/* Loading Screen */}
       {isLoading && (
-        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gradient-to-br from-background via-background to-card">
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center">
           <div className="mb-8 animate-pulse">
             <img 
               src={geminiIcon} 
               alt="Gemini" 
-              className="w-24 h-24 rounded-3xl shadow-glow"
+              className="w-32 h-32 rounded-3xl shadow-glow"
             />
           </div>
-          <Loader2 className="w-8 h-8 animate-spin text-primary mb-4" />
-          <p className="text-muted-foreground text-sm">Carregando Gemini...</p>
+          <Loader2 className="w-10 h-10 animate-spin text-primary mb-4" />
+          <p className="text-muted-foreground text-base">Inicializando Gemini AI...</p>
         </div>
       )}
 
-      {/* Main Webview Container */}
-      <div className="flex-1 relative">
-        <iframe
-          src={geminiUrl}
-          className="w-full h-full border-0"
-          title="Gemini AI"
-          allow="camera; microphone; clipboard-write; clipboard-read"
-          sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
-        />
-      </div>
+      {/* Main Content */}
+      {!isLoading && (
+        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
+          <div className="mb-8 relative">
+            <div className="absolute inset-0 animate-pulse blur-2xl opacity-50 bg-gradient-gemini rounded-full"></div>
+            <img 
+              src={geminiIcon} 
+              alt="Gemini" 
+              className="w-32 h-32 rounded-3xl shadow-glow relative z-10"
+            />
+          </div>
+
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-gemini bg-clip-text text-transparent">
+            Gemini AI
+          </h1>
+          
+          <p className="text-muted-foreground text-lg mb-8 max-w-md">
+            Seu assistente de inteligência artificial do Google, agora em um app nativo profissional
+          </p>
+
+          <Button 
+            onClick={openGemini}
+            size="lg"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-glow transition-all hover:scale-105"
+          >
+            <Sparkles className="w-5 h-5 mr-2" />
+            Abrir Gemini
+          </Button>
+
+          <p className="text-xs text-muted-foreground mt-6 max-w-sm">
+            {typeof window !== 'undefined' && 'Capacitor' in window 
+              ? "App nativo: O Gemini abrirá dentro do aplicativo" 
+              : "Versão web: O Gemini abrirá em nova aba. Compile o app nativo para experiência completa."}
+          </p>
+        </div>
+      )}
     </div>
   );
 };
