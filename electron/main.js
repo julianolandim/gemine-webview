@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu } = require('electron');
+const { app, BrowserWindow, Menu, session } = require('electron');
 const path = require('path');
 
 let mainWindow;
@@ -13,11 +13,24 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      webviewTag: true
+      webviewTag: true,
+      // Permissões adicionais para sites modernos
+      webSecurity: true,
+      allowRunningInsecureContent: false
     },
     titleBarStyle: 'hiddenInset',
     backgroundColor: '#1a1625',
     show: false
+  });
+
+  // User-Agent do Chrome para evitar bloqueio
+  const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
+  mainWindow.webContents.setUserAgent(userAgent);
+
+  // Modificar headers para simular navegador normal
+  session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
+    details.requestHeaders['User-Agent'] = userAgent;
+    callback({ requestHeaders: details.requestHeaders });
   });
 
   // Carrega a URL do Gemini diretamente
