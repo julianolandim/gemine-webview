@@ -1,110 +1,181 @@
-# Gemini AI - App Desktop
+# gemine-webview
 
-App desktop nativo do Google Gemini para macOS, Windows e Linux criado com Electron.
+Base em TypeScript para uma interface Web (WebView). Este repositório serve como ponto de partida para construir, rodar e empacotar uma aplicação web moderna que pode ser incorporada em hosts como Electron, Tauri, Capacitor, Android WebView e iOS WKWebView.
 
-## 🚀 Início Rápido
+> Observação: ajuste as seções abaixo para refletir exatamente o que este projeto faz (framework, bundler, comandos, etc.).
 
-Este projeto precisa ser exportado do Lovable para ser compilado como app desktop.
-
-### 📋 Pré-requisitos
-
-- **macOS**: 10.13 ou superior (High Sierra+)
-- **Windows**: Windows 10 ou superior  
-- **Linux**: Ubuntu 18.04+ ou equivalente
-- Node.js 18+ e npm
-
-## 📦 Como Usar
-
-1. **Exporte o projeto**: Clique em "Export to Github" no Lovable
-2. **Siga a configuração**: Leia o arquivo `SETUP-ELECTRON.md`
-3. **Compile o app**: Instruções completas em `BUILD-INSTRUCTIONS.md`
-
-## 🎯 Compatibilidade macOS
-
-✅ Funciona em **todas as versões do macOS desde 10.13**:
-- macOS 10.13 High Sierra
-- macOS 10.14 Mojave  
-- macOS 10.15 Catalina
-- macOS 11 Big Sur
-- macOS 12 Monterey
-- macOS 13 Ventura
-- macOS 14 Sonoma
-- macOS 15 Sequoia
-
-**Arquiteturas suportadas:**
-- Intel (x64)
-- Apple Silicon (arm64 - M1/M2/M3/M4)
+## Sumário
+- [Visão geral](#visão-geral)
+- [Tecnologias](#tecnologias)
+- [Requisitos](#requisitos)
+- [Instalação](#instalação)
+- [Execução](#execução)
+- [Scripts](#scripts)
+- [Configuração (env)](#configuração-env)
+- [Estrutura do projeto](#estrutura-do-projeto)
+- [Integração como WebView](#integração-como-webview)
+- [Qualidade de código](#qualidade-de-código)
+- [Testes](#testes)
+- [Build e distribuição](#build-e-distribuição)
+- [Roadmap](#roadmap)
+- [Contribuição](#contribuição)
+- [Licença](#licença)
 
 ---
 
-## Project info
+## Visão geral
+Descreva aqui, em 2–4 linhas, o propósito do projeto:
+- Qual problema resolve
+- Onde a WebView será utilizada (por exemplo, app desktop, mobile, plugin, web embutida, etc.)
+- Principais diferenciais
 
-**URL**: https://lovable.dev/projects/ca9f0bb6-59f7-46ea-96d6-de972793ee8c
+Exemplo:
+"Este projeto fornece uma WebView em TypeScript para incorporar uma UI leve e rápida em diferentes hosts. Foca em desempenho, DX (Developer Experience) e fácil integração."
 
-## How can I edit this code?
+## Tecnologias
+Com base na composição do repositório:
+- TypeScript (principal)
+- JavaScript
+- CSS
+- HTML
 
-There are several ways of editing your application.
+Adapte com o que realmente é usado (ex.: React, Vue, Svelte, Vite, Next.js, Tailwind, ESLint, Prettier, Vitest/Jest, Playwright, etc.).
 
-**Use Lovable**
+## Requisitos
+- Node.js 18+ (recomendado 20+)
+- npm 9+ (ou yarn/pnpm)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/ca9f0bb6-59f7-46ea-96d6-de972793ee8c) and start prompting.
+## Instalação
+```bash
+# usando npm
+npm install
 
-Changes made via Lovable will be committed automatically to this repo.
+# ou com pnpm
+pnpm install
 
-**Use your preferred IDE**
+# ou com yarn
+yarn
+```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+## Execução
+```bash
+# ambiente de desenvolvimento (hot reload)
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Se o projeto usar Vite/Next/etc., detalhe a URL de acesso (ex.: http://localhost:5173).
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Scripts
+Atualize conforme o seu package.json:
+```bash
+# desenvolvimento
+npm run dev
 
-**Use GitHub Codespaces**
+# build de produção
+npm run build
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+# pré-visualização (se disponível)
+npm run preview
 
-## What technologies are used for this project?
+# lint
+npm run lint
 
-This project is built with:
+# formatação (se usar Prettier)
+npm run format
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+# testes
+npm run test
+```
 
-## How can I deploy this project?
+## Configuração (env)
+Caso use variáveis de ambiente:
+1. Crie um arquivo `.env` na raiz (ou `.env.local`) com base em um `.env.example` (se existir).
+2. Documente as chaves necessárias:
 
-Simply open [Lovable](https://lovable.dev/projects/ca9f0bb6-59f7-46ea-96d6-de972793ee8c) and click on Share -> Publish.
+Exemplo:
+```
+# .env
+VITE_API_BASE_URL=https://api.exemplo.com
+FEATURE_FLAG_EXPERIMENTAL=false
+```
 
-## Can I connect a custom domain to my Lovable project?
+Explique como cada variável impacta a aplicação.
 
-Yes, you can!
+## Estrutura do projeto
+Exemplo (ajuste aos diretórios reais):
+```
+/
+├─ src/
+│  ├─ assets/         # imagens, fontes, ícones
+│  ├─ components/     # componentes de UI
+│  ├─ pages/          # páginas/rotas (se aplicável)
+│  ├─ styles/         # estilos globais
+│  ├─ lib/            # utilitários/helpers
+│  ├─ index.html      # ponto de entrada HTML (se Vite)
+│  └─ main.ts(x)      # bootstrap da aplicação
+├─ public/            # arquivos estáticos
+├─ package.json
+├─ tsconfig.json
+└─ README.md
+```
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## Integração como WebView
+- Electron/Tauri (desktop): sirva ou distribua o conteúdo de `dist/` como alvo da janela principal.
+- Capacitor/Cordova (mobile): coloque os artefatos de build em `public/`/`www` conforme a ferramenta.
+- Android WebView / iOS WKWebView: hospede o conteúdo de `dist/` localmente ou remota/HTTPS e carregue a URL na WebView.
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Inclua exemplos/links específicos se aplicável.
+
+## Qualidade de código
+- TypeScript para tipagem estática
+- ESLint para linting (explique regras principais, se houver)
+- Prettier para formatação consistente
+
+Sugestão de checagens locais:
+```bash
+npm run lint
+npm run format
+```
+
+## Testes
+Explique a estratégia de testes (unitários, integração, E2E) e como rodá-los:
+```bash
+# unit/integration
+npm run test
+
+# com cobertura (se configurado)
+npm run test -- --coverage
+```
+
+## Build e distribuição
+Como gerar e consumir os artefatos:
+```bash
+npm run build
+```
+- Saída esperada: `dist/` (ou outra pasta)
+- Como integrar a saída da WebView no ambiente alvo (ex.: copiar `dist/` para o app host)
+
+Se houver CI/CD (GitHub Actions), descreva o fluxo (build, testes, lint, artefatos).
+
+## Roadmap
+- [ ] Definir framework/bundler (ex.: Vite + React)
+- [ ] Configurar ESLint/Prettier
+- [ ] Implementar layout base e tema
+- [ ] Adicionar testes E2E (opcional)
+- [ ] Documentar integração com o host da WebView
+
+Atualize conforme o avanço do projeto.
+
+## Contribuição
+- Crie uma branch a partir de `main`
+- Faça commits pequenos e descritivos
+- Abra um PR com contexto, screenshots e passos de teste
+
+Padrão sugerido de commits: Conventional Commits (ex.: feat:, fix:, chore:, docs:, refactor:, test:).
+
+## Licença
+Defina a licença do projeto (MIT, Apache-2.0, etc.). Se não houver licença definida, considere adicionar um arquivo LICENSE.
+
+---
+
+Mantido por [@julianolandim](https://github.com/julianolandim).
