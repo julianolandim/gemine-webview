@@ -16,8 +16,13 @@ const Index = () => {
   }, []);
 
   const openGemini = () => {
-    // Carrega o Gemini na mesma janela (perfeito para Electron Desktop)
-    window.location.href = geminiUrl;
+    // Verifica se está rodando no Electron
+    if (window.electronAPI) {
+      window.electronAPI.openExternal(geminiUrl);
+    } else {
+      // Fallback para navegador
+      window.open(geminiUrl, '_blank');
+    }
   };
 
   // Auto-open após loading
@@ -77,7 +82,7 @@ const Index = () => {
           </Button>
 
           <p className="text-xs text-muted-foreground mt-6 max-w-sm">
-            O Gemini será carregado diretamente nesta janela
+            O Gemini será aberto no seu navegador padrão, onde você pode fazer login normalmente
           </p>
         </div>
       )}
