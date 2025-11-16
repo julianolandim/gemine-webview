@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
-import { Browser } from "@capacitor/browser";
 import { Loader2, Sparkles } from "lucide-react";
 import geminiIcon from "@/assets/gemini-icon.png";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const { toast } = useToast();
   const geminiUrl = "https://gemini.google.com/app?utm_source=app_launcher&utm_medium=owned&utm_campaign=base_all";
 
   useEffect(() => {
@@ -18,22 +15,9 @@ const Index = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const openGemini = async () => {
-    try {
-      // Abre o Gemini no navegador in-app nativo (funciona perfeitamente em Android/iOS)
-      await Browser.open({ 
-        url: geminiUrl,
-        presentationStyle: 'fullscreen',
-        toolbarColor: '#1a1625'
-      });
-    } catch (error) {
-      // Fallback para navegador web durante desenvolvimento
-      window.open(geminiUrl, '_blank');
-      toast({
-        title: "Gemini aberto",
-        description: "O Gemini foi aberto em uma nova aba. No app nativo, abrirá dentro do aplicativo.",
-      });
-    }
+  const openGemini = () => {
+    // Carrega o Gemini na mesma janela (perfeito para Electron Desktop)
+    window.location.href = geminiUrl;
   };
 
   // Auto-open após loading
@@ -93,9 +77,7 @@ const Index = () => {
           </Button>
 
           <p className="text-xs text-muted-foreground mt-6 max-w-sm">
-            {typeof window !== 'undefined' && 'Capacitor' in window 
-              ? "App nativo: O Gemini abrirá dentro do aplicativo" 
-              : "Versão web: O Gemini abrirá em nova aba. Compile o app nativo para experiência completa."}
+            O Gemini será carregado diretamente nesta janela
           </p>
         </div>
       )}
