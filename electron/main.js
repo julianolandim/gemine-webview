@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, session } = require('electron');
+const { app, BrowserWindow, Menu, shell } = require('electron');
 const path = require('path');
 
 let mainWindow;
@@ -11,30 +11,22 @@ function createWindow() {
     minHeight: 600,
     icon: path.join(__dirname, '../public/gemini-icon.png'),
     webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
-      webviewTag: true,
-      // Permissões adicionais para sites modernos
-      webSecurity: true,
-      allowRunningInsecureContent: false
+      nodeIntegration: true,
+      contextIsolation: false,
+      preload: path.join(__dirname, 'preload.js')
     },
     titleBarStyle: 'hiddenInset',
     backgroundColor: '#1a1625',
     show: false
   });
 
-  // User-Agent do Chrome para evitar bloqueio
-  const userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
-  mainWindow.webContents.setUserAgent(userAgent);
-
-  // Modificar headers para simular navegador normal
-  session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
-    details.requestHeaders['User-Agent'] = userAgent;
-    callback({ requestHeaders: details.requestHeaders });
-  });
-
-  // Carrega a URL do Gemini diretamente
-  mainWindow.loadURL('https://gemini.google.com/app?utm_source=app_launcher&utm_medium=owned&utm_campaign=base_all');
+  // Carrega o app React (interface do launcher)
+  const isDev = !app.isPackaged;
+  const url = isDev 
+    ? 'http://localhost:8080' 
+    : `file://${path.join(__dirname, '../dist/index.html')}`;
+  
+  mainWindow.loadURL(url);
 
   // Mostra a janela quando estiver pronta
   mainWindow.once('ready-to-show', () => {

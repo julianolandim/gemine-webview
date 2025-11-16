@@ -1,4 +1,7 @@
-// Preload script for Electron security
-window.addEventListener('DOMContentLoaded', () => {
-  console.log('Gemini AI Desktop App loaded');
-});
+const { shell } = require('electron');
+
+window.electronAPI = {
+  openExternal: (url) => {
+    shell.openExternal(url);
+  }
+};
