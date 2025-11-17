@@ -87,7 +87,12 @@ npm run electron:dev
 ```bash
 npm run electron:build:mac
 ```
-**Gera:** `.dmg` e `.zip` na pasta `dist-electron/`
+**Gera:** 
+- `.dmg` (instalador com interface "arrastar para Aplicativos")
+- `.zip` (versão compactada do app)
+- Arquivos salvos em `dist-electron/`
+
+> 💡 **Dica:** O instalador DMG abre uma janela onde você arrasta o ícone do app para a pasta Aplicativos - experiência nativa do macOS!
 
 #### Windows (PCs)
 ```bash
