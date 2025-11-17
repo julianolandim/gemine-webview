@@ -32,7 +32,7 @@ Abra o arquivo `package.json` e adicione os seguintes scripts na seção `"scrip
 **E adicione também** (no final do arquivo, antes do último `}`):
 
 ```json
-"main": "electron/main.js"
+"main": "electron/main.cjs"
 ```
 
 ### 4. Instale as dependências
@@ -54,7 +54,7 @@ O seu `package.json` deve ficar assim:
   "name": "gemini-ai-desktop",
   "version": "1.0.0",
   "description": "Gemini AI Desktop App for macOS, Windows and Linux",
-  "main": "electron/main.js",
+  "main": "electron/main.cjs",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
