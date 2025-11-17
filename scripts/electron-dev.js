@@ -3,7 +3,7 @@ const electron = require('electron');
 const path = require('path');
 
 const electronPath = electron;
-const mainPath = path.join(__dirname, '../electron/main.js');
+const mainPath = path.join(__dirname, '../electron/main.cjs');
 
 const electronProcess = spawn(electronPath, [mainPath], {
   stdio: 'inherit',

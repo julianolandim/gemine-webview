@@ -6,7 +6,8 @@
   },
   "files": [
     "electron/**/*",
-    "public/**/*"
+    "public/**/*",
+    "dist/**/*"
   ],
   "mac": {
     "category": "public.app-category.productivity",
