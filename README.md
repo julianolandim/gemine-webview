@@ -1,21 +1,24 @@
-# 🚀 Gemini AI Desktop
+# 🚀 Gemini AI - Desktop & Mobile
 
-Aplicativo desktop nativo do Google Gemini para **macOS, Windows e Linux**, construído com Electron.
+Aplicativo multiplataforma do Google Gemini para **Desktop (macOS, Windows, Linux)** e **Mobile (Android, iOS)**.
 
 ## 📋 Sobre o Projeto
 
-Este é um aplicativo desktop que traz a experiência completa do Google Gemini AI diretamente para o seu computador, sem precisar usar o navegador. O app roda nativamente no seu sistema operacional, oferecendo uma experiência mais integrada e conveniente.
+Este aplicativo traz a experiência completa do Google Gemini AI para todos os seus dispositivos:
+- **Desktop**: Aplicativo nativo construído com Electron
+- **Mobile**: Aplicativo nativo construído com Capacitor
 
 ### ✨ Características
 
-- 🖥️ Interface nativa para macOS, Windows e Linux
-- ⚡ Acesso rápido ao Gemini sem abrir o navegador
-- 🎨 Experiência otimizada para desktop
-- 📦 Instalador simples para cada plataforma
+- 🖥️ **Desktop**: Interface nativa para macOS, Windows e Linux
+- 📱 **Mobile**: Aplicativo nativo para Android e iOS
+- ⚡ Acesso rápido ao Gemini em qualquer dispositivo
+- 🎨 Experiência otimizada para cada plataforma
 
 ## 🛠️ Tecnologias Utilizadas
 
-- **Electron** - Framework para aplicativos desktop multiplataforma
+- **Electron** - Framework para aplicativos desktop
+- **Capacitor** - Framework para aplicativos mobile nativos
 - **React** - Biblioteca para construção de interfaces
 - **TypeScript** - Linguagem tipada
 - **Vite** - Build tool moderna e rápida
@@ -24,16 +27,15 @@ Este é um aplicativo desktop que traz a experiência completa do Google Gemini 
 
 ## 📦 Pré-requisitos
 
-Antes de começar, certifique-se de ter instalado:
-
+### Requisitos Gerais
 - **Node.js** 18 ou superior ([Download](https://nodejs.org/))
 - **npm** (vem junto com Node.js)
 
-### Requisitos por Sistema Operacional
+### Requisitos para Desktop (Electron)
 
 #### macOS
 - macOS 10.13 (High Sierra) ou superior
-- Suporta tanto Intel (x64) quanto Apple Silicon (arm64)
+- Suporta Intel (x64) e Apple Silicon (arm64)
 
 #### Windows
 - Windows 7 ou superior
@@ -41,9 +43,18 @@ Antes de começar, certifique-se de ter instalado:
 
 #### Linux
 - Qualquer distribuição moderna (Ubuntu, Fedora, Debian, etc.)
-- Suporte para AppImage ou .deb
 
-## 🚀 Instalação e Execução
+### Requisitos para Mobile (Capacitor)
+
+#### Android
+- **Android Studio** instalado
+- SDK do Android configurado
+
+#### iOS
+- **macOS** com **Xcode** instalado
+- Conta Apple Developer (para distribuição)
+
+## 🚀 Instalação
 
 ### 1️⃣ Clone o Repositório
 
@@ -58,51 +69,103 @@ cd <nome-da-pasta>
 npm install
 ```
 
-### 3️⃣ Execute o Aplicativo em Modo Desenvolvimento
+---
+
+## 🖥️ DESKTOP - Comandos Electron
+
+### Desenvolvimento
+
+Execute o aplicativo desktop em modo desenvolvimento:
 
 ```bash
 npm run electron:dev
 ```
 
-O aplicativo abrirá automaticamente em uma janela nativa do seu sistema operacional.
+### Compilação para Distribuição
 
-## 📦 Compilação (Build)
-
-Para criar o instalador do aplicativo para distribuição:
-
-### macOS
-
+#### macOS (computadores Apple)
 ```bash
 npm run electron:build:mac
 ```
+**Gera:** `.dmg` e `.zip` na pasta `dist-electron/`
 
-Gera arquivos `.dmg` e `.zip` para instalação no macOS (Intel e Apple Silicon).
-
-### Windows
-
+#### Windows (PCs)
 ```bash
 npm run electron:build:win
 ```
+**Gera:** `.exe` (instalador) e versão portátil na pasta `dist-electron/`
 
-Gera instalador `.exe` e versão portátil para Windows.
-
-### Linux
-
+#### Linux
 ```bash
 npm run electron:build:linux
 ```
+**Gera:** `.AppImage` e `.deb` na pasta `dist-electron/`
 
-Gera `.AppImage` e `.deb` para distribuições Linux.
-
-### Todas as Plataformas
-
+#### Todas as Plataformas Desktop
 ```bash
 npm run electron:build:all
 ```
+**Gera:** Instaladores para macOS + Windows + Linux simultaneamente
 
-Compila para macOS, Windows e Linux simultaneamente.
+---
 
-**📁 Os arquivos compilados estarão na pasta:** `dist-electron/`
+## 📱 MOBILE - Comandos Capacitor
+
+### Configuração Inicial (executar 1 vez)
+
+Inicialize o projeto Capacitor:
+```bash
+npm run cap:init
+```
+
+Adicione a plataforma desejada:
+```bash
+npm run cap:add:android    # Para Android
+npm run cap:add:ios        # Para iOS
+```
+
+### Sincronizar Código
+
+Após fazer mudanças no código, sincronize com as plataformas nativas:
+```bash
+npm run cap:sync
+```
+
+### Executar no Dispositivo/Emulador
+
+#### Android
+```bash
+npm run cap:run:android
+```
+**Requer:** Android Studio instalado
+
+#### iOS
+```bash
+npm run cap:run:ios
+```
+**Requer:** macOS com Xcode instalado
+
+### Abrir nos IDEs Nativos
+
+Para desenvolvimento avançado, abra o projeto nos IDEs nativos:
+
+```bash
+npm run cap:open:android   # Abre no Android Studio
+npm run cap:open:ios       # Abre no Xcode
+```
+
+---
+
+## 📊 Resumo Rápido por Plataforma
+
+| Plataforma | Comando Principal |
+|------------|-------------------|
+| **macOS** | `npm run electron:build:mac` |
+| **Windows** | `npm run electron:build:win` |
+| **Linux** | `npm run electron:build:linux` |
+| **Android** | `npm run cap:run:android` |
+| **iOS** | `npm run cap:run:ios` |
+
 
 ## 📂 Estrutura do Projeto
 
@@ -117,32 +180,62 @@ Compila para macOS, Windows e Linux simultaneamente.
 └── package.json          # Dependências e scripts
 ```
 
-## 🎯 Scripts Disponíveis
+## 🎯 Todos os Scripts Disponíveis
 
+### Desenvolvimento
 | Comando | Descrição |
 |---------|-----------|
 | `npm run dev` | Executa apenas o frontend Vite |
-| `npm run electron:dev` | Executa o app Electron em desenvolvimento |
-| `npm run electron:build` | Compila para o sistema operacional atual |
+| `npm run electron:dev` | Executa o app desktop Electron |
+
+### Build Desktop (Electron)
+| Comando | Descrição |
+|---------|-----------|
 | `npm run electron:build:mac` | Compila para macOS |
 | `npm run electron:build:win` | Compila para Windows |
 | `npm run electron:build:linux` | Compila para Linux |
-| `npm run electron:build:all` | Compila para todos os sistemas |
+| `npm run electron:build:all` | Compila para todas as plataformas desktop |
+
+### Mobile (Capacitor)
+| Comando | Descrição |
+|---------|-----------|
+| `npm run cap:init` | Inicializa o Capacitor (executar 1 vez) |
+| `npm run cap:add:android` | Adiciona plataforma Android |
+| `npm run cap:add:ios` | Adiciona plataforma iOS |
+| `npm run cap:sync` | Sincroniza código com plataformas nativas |
+| `npm run cap:run:android` | Executa no Android |
+| `npm run cap:run:ios` | Executa no iOS |
+| `npm run cap:open:android` | Abre projeto no Android Studio |
+| `npm run cap:open:ios` | Abre projeto no Xcode |
 
 ## 🐛 Problemas Comuns
 
-### O app não abre após compilar
+### Desktop (Electron)
+
+**O app não abre após compilar**
 - Verifique se todas as dependências foram instaladas: `npm install`
 - Certifique-se de que está usando Node.js 18+
 
-### Erro ao compilar para macOS
-- No macOS, pode ser necessário dar permissões ao app nas configurações de Segurança
+**Erro ao compilar para macOS**
+- Pode ser necessário dar permissões ao app nas configurações de Segurança
 
-### Erro ao compilar para Windows
+**Erro ao compilar para Windows**
 - Certifique-se de ter o Visual Studio Build Tools instalado
 
-### Erro ao compilar para Linux
-- Algumas distribuições podem precisar de dependências adicionais como `libgtk-3-0`
+**Erro ao compilar para Linux**
+- Algumas distribuições precisam de dependências adicionais como `libgtk-3-0`
+
+### Mobile (Capacitor)
+
+**Erro ao executar no Android**
+- Verifique se o Android Studio está instalado corretamente
+- Certifique-se de que o SDK do Android está configurado
+- Execute `npm run cap:sync` antes de tentar novamente
+
+**Erro ao executar no iOS**
+- Apenas funciona em macOS com Xcode instalado
+- Verifique se o Xcode Command Line Tools está instalado: `xcode-select --install`
+- Execute `npm run cap:sync` antes de tentar novamente
 
 ## 📝 Licença
 
