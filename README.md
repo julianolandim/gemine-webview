@@ -73,8 +73,8 @@ npm install
 
 ## 🔧 Troubleshooting
 
-### Tela Preta ao Abrir o App (macOS/Windows/Linux)
-Se o app abrir uma tela preta:
+### Página 404 ou Tela Preta ao Abrir o App (macOS/Windows/Linux)
+Se o app mostrar erro 404 ou tela preta:
 1. **Certifique-se de reconstruir o app completamente:**
    ```bash
    npm run build
@@ -84,6 +84,8 @@ Se o app abrir uma tela preta:
 3. Use o arquivo `.dmg` gerado (ex: `Gemini AI-1.0.0-arm64.dmg`) 
 4. Abra o DMG e arraste o app para a pasta Aplicativos
 5. Execute a partir da pasta Aplicativos
+
+**Nota:** O app usa HashRouter para compatibilidade com Electron (protocolo `file://`)
 
 ### DMG Não Foi Gerado (macOS)
 Se apenas a pasta `mac-arm64` foi criada mas o DMG não:
