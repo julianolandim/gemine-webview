@@ -28,7 +28,7 @@ function createWindow() {
     mainWindow.webContents.openDevTools();
   } else {
     // Em produção, usa o caminho correto dentro do app empacotado
-    const indexPath = path.join(__dirname, '../../dist/index.html');
+    const indexPath = path.join(__dirname, '../dist/index.html');
     console.log('Loading from:', indexPath);
     mainWindow.loadFile(indexPath);
   }
