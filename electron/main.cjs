@@ -27,8 +27,9 @@ function createWindow() {
     mainWindow.loadURL('http://localhost:8080');
     mainWindow.webContents.openDevTools();
   } else {
-    // Em produção, carrega do dist que está ao lado do electron
-    const indexPath = path.join(__dirname, '../dist/index.html');
+    // Em produção, usa o caminho correto dentro do app empacotado
+    const indexPath = path.join(__dirname, '../../dist/index.html');
+    console.log('Loading from:', indexPath);
     mainWindow.loadFile(indexPath);
   }
 

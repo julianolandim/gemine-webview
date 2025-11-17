@@ -71,6 +71,35 @@ npm install
 
 ---
 
+## 🔧 Troubleshooting
+
+### Tela Preta ao Abrir o App (macOS/Windows/Linux)
+Se o app abrir uma tela preta:
+1. **Não execute o app diretamente da pasta `dist-electron/mac-arm64/`** (ou pastas equivalentes)
+2. Use o arquivo `.dmg` gerado (ex: `Gemini AI-1.0.0-arm64.dmg`) no macOS
+3. No macOS: Abra o DMG e arraste o app para a pasta Aplicativos
+4. Execute a partir da pasta Aplicativos (macOS) ou local de instalação
+
+### DMG Não Foi Gerado (macOS)
+Se apenas a pasta `mac-arm64` foi criada mas o DMG não:
+1. Verifique se o build terminou sem erros no terminal
+2. Procure por arquivos `.dmg` na pasta `dist-electron/`
+3. Execute novamente: `npm run electron:build:mac`
+4. Aguarde o processo completar - pode demorar alguns minutos
+
+### Problemas de Permissão (macOS)
+Se o macOS bloquear o app ao tentar abrir:
+1. Vá em **Preferências do Sistema > Privacidade e Segurança**
+2. Clique em **"Abrir Assim Mesmo"**
+3. Ou execute no terminal: `xattr -cr "/Applications/Gemini AI.app"`
+
+### App Não Abre no Android/iOS
+- Verifique se executou `npm run cap:sync` após alterações
+- Certifique-se que o Android Studio ou Xcode está instalado
+- Tente reconstruir o app nativo
+
+---
+
 ## 🖥️ DESKTOP - Comandos Electron
 
 ### Desenvolvimento
@@ -88,11 +117,13 @@ npm run electron:dev
 npm run electron:build:mac
 ```
 **Gera:** 
-- `.dmg` (instalador com interface "arrastar para Aplicativos")
+- `.dmg` (instalador com interface "arrastar para Aplicativos") - **Localização:** `dist-electron/Gemini AI-[versão]-arm64.dmg`
 - `.zip` (versão compactada do app)
 - Arquivos salvos em `dist-electron/`
 
 > 💡 **Dica:** O instalador DMG abre uma janela onde você arrasta o ícone do app para a pasta Aplicativos - experiência nativa do macOS!
+
+> ⚠️ **Importante:** Não execute o app diretamente da pasta `dist-electron/mac-arm64/`. Use o arquivo `.dmg` gerado para instalação!
 
 #### Windows (PCs)
 ```bash
