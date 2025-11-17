@@ -1,7 +1,10 @@
-const { shell } = require('electron');
+const { ipcRenderer } = require('electron');
 
 window.electronAPI = {
-  openExternal: (url) => {
-    shell.openExternal(url);
+  openGemini: (url) => {
+    ipcRenderer.send('open-gemini', url);
+  },
+  goBackToApp: () => {
+    ipcRenderer.send('go-back-to-app');
   }
 };

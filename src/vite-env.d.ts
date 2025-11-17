@@ -2,6 +2,7 @@
 
 interface Window {
   electronAPI?: {
-    openExternal: (url: string) => void;
+    openGemini: (url: string) => void;
+    goBackToApp: () => void;
   };
 }

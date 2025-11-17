@@ -18,7 +18,7 @@ const Index = () => {
   const openGemini = () => {
     // Verifica se está rodando no Electron
     if (window.electronAPI) {
-      window.electronAPI.openExternal(geminiUrl);
+      window.electronAPI.openGemini(geminiUrl);
     } else {
       // Fallback para navegador
       window.open(geminiUrl, '_blank');

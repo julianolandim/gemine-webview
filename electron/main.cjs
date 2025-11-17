@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, shell } = require('electron');
+const { app, BrowserWindow, Menu, shell, ipcMain } = require('electron');
 const path = require('path');
 
 let mainWindow;
@@ -95,6 +95,26 @@ function createWindow() {
     mainWindow = null;
   });
 }
+
+// Handler para abrir Gemini dentro da janela
+ipcMain.on('open-gemini', (event, url) => {
+  if (mainWindow) {
+    mainWindow.loadURL(url);
+  }
+});
+
+// Handler para voltar ao app
+ipcMain.on('go-back-to-app', () => {
+  if (mainWindow) {
+    const isDev = !app.isPackaged;
+    if (isDev) {
+      mainWindow.loadURL('http://localhost:8080');
+    } else {
+      const indexPath = path.join(__dirname, '../dist/index.html');
+      mainWindow.loadFile(indexPath);
+    }
+  }
+});
 
 app.whenReady().then(() => {
   createWindow();
