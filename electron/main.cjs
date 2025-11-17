@@ -22,11 +22,15 @@ function createWindow() {
 
   // Carrega o app React (interface do launcher)
   const isDev = !app.isPackaged;
-  const url = isDev 
-    ? 'http://localhost:8080' 
-    : `file://${path.join(__dirname, '../dist/index.html')}`;
   
-  mainWindow.loadURL(url);
+  if (isDev) {
+    mainWindow.loadURL('http://localhost:8080');
+    mainWindow.webContents.openDevTools();
+  } else {
+    // Em produção, carrega do dist que está ao lado do electron
+    const indexPath = path.join(__dirname, '../dist/index.html');
+    mainWindow.loadFile(indexPath);
+  }
 
   // Mostra a janela quando estiver pronta
   mainWindow.once('ready-to-show', () => {
