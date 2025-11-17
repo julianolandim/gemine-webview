@@ -1,0 +1,44 @@
+# Build outputs
+dist/
+dist-electron/
+build/
+
+# Capacitor
+android/
+ios/
+
+# Development
+node_modules/
+src/
+public/
+
+# Config files
+*.config.ts
+*.config.js
+tsconfig*.json
+vite.config.ts
+tailwind.config.ts
+electron-builder.json
+
+# Documentation
+*.md
+BUILD-INSTRUCTIONS.md
+SETUP-ELECTRON.md
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+
+# Environment
+.env*
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
