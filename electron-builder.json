@@ -25,17 +25,22 @@
     "minimumSystemVersion": "10.13.0"
   },
   "dmg": {
-    "title": "Gemini AI",
+    "title": "Gemini AI Installer",
     "icon": "public/gemini-icon.png",
-    "background": null,
+    "iconSize": 120,
+    "window": {
+      "width": 540,
+      "height": 380
+    },
     "contents": [
       {
-        "x": 130,
-        "y": 220
+        "x": 140,
+        "y": 200,
+        "type": "file"
       },
       {
-        "x": 410,
-        "y": 220,
+        "x": 400,
+        "y": 200,
         "type": "link",
         "path": "/Applications"
       }
