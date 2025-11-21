@@ -53,6 +53,6 @@
   },
   "win": {
     "target": ["nsis", "portable"],
-    "icon": "public/gemini-icon.png"
+    "icon": "public/favicon.ico"
   }
 }
