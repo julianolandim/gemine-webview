@@ -38,8 +38,8 @@ Este aplicativo traz a experiência completa do Google Gemini AI para todos os s
 - Suporta Intel (x64) e Apple Silicon (arm64)
 
 #### Windows
-- Windows 7 ou superior
-- Arquitetura 64-bit recomendada
+- Windows 7 SP1 ou superior
+- Suporta arquiteturas x64 (64-bit) e x86 (32-bit)
 
 #### Linux
 - Qualquer distribuição moderna (Ubuntu, Fedora, Debian, etc.)
@@ -136,7 +136,12 @@ npm run electron:build:mac
 ```bash
 npm run electron:build:win
 ```
-**Gera:** `.exe` (instalador) e versão portátil na pasta `dist-electron/`
+**Gera:** 
+- Instaladores NSIS (`.exe`) para x64 e ia32
+- Versões portáteis para x64 e ia32
+- Arquivos salvos em `dist-electron/`
+
+> 💡 **Compatibilidade:** Gera instaladores para sistemas 64-bit (x64) e 32-bit (ia32), garantindo máxima compatibilidade
 
 #### Linux
 ```bash
