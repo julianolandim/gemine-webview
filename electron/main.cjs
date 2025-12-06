@@ -1,5 +1,77 @@
-const { app, BrowserWindow, Menu, shell, ipcMain } = require('electron');
+const { app, BrowserWindow, Menu, shell, ipcMain, clipboard } = require('electron');
 const path = require('path');
+
+// Menu de contexto (clique direito)
+function createContextMenu(window) {
+  window.webContents.on('context-menu', (event, params) => {
+    const menuTemplate = [];
+
+    // Opções de texto selecionado
+    if (params.selectionText) {
+      menuTemplate.push(
+        { label: 'Copiar', role: 'copy' },
+        { label: 'Recortar', role: 'cut', enabled: params.isEditable }
+      );
+    }
+
+    // Opções para campos editáveis
+    if (params.isEditable) {
+      menuTemplate.push(
+        { label: 'Colar', role: 'paste' },
+        { label: 'Selecionar Tudo', role: 'selectAll' }
+      );
+    }
+
+    // Opções para links
+    if (params.linkURL) {
+      if (menuTemplate.length > 0) {
+        menuTemplate.push({ type: 'separator' });
+      }
+      menuTemplate.push(
+        {
+          label: 'Copiar Link',
+          click: () => clipboard.writeText(params.linkURL)
+        },
+        {
+          label: 'Abrir Link no Navegador',
+          click: () => shell.openExternal(params.linkURL)
+        }
+      );
+    }
+
+    // Opções para imagens
+    if (params.mediaType === 'image') {
+      if (menuTemplate.length > 0) {
+        menuTemplate.push({ type: 'separator' });
+      }
+      menuTemplate.push(
+        {
+          label: 'Copiar Imagem',
+          click: () => {
+            window.webContents.copyImageAt(params.x, params.y);
+          }
+        },
+        {
+          label: 'Copiar Endereço da Imagem',
+          click: () => clipboard.writeText(params.srcURL)
+        }
+      );
+    }
+
+    // Se não há opções específicas, mostra menu básico
+    if (menuTemplate.length === 0) {
+      menuTemplate.push(
+        { label: 'Voltar', click: () => window.webContents.goBack(), enabled: window.webContents.canGoBack() },
+        { label: 'Avançar', click: () => window.webContents.goForward(), enabled: window.webContents.canGoForward() },
+        { type: 'separator' },
+        { label: 'Recarregar', role: 'reload' }
+      );
+    }
+
+    const contextMenu = Menu.buildFromTemplate(menuTemplate);
+    contextMenu.popup({ window });
+  });
+}
 
 let mainWindow;
 
@@ -36,6 +108,9 @@ function createWindow() {
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
   });
+
+  // Ativa o menu de contexto (clique direito)
+  createContextMenu(mainWindow);
 
   // Menu customizado
   const template = [
