@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Loader2, Sparkles } from "lucide-react";
 import geminiIcon from "@/assets/gemini-icon.png";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -20,8 +21,10 @@ const Index = () => {
     if (window.electronAPI) {
       // Carrega Gemini na mesma janela do Electron
       window.electronAPI.openGemini(geminiUrl);
+    } else {
+      // No navegador/preview, mostra mensagem informativa
+      toast.info("Este recurso funciona apenas no app desktop. Compile o app Electron para usar.");
     }
-    // No navegador/preview, não faz nada (Gemini não pode ser embutido em iframe)
   };
 
   // Auto-open após loading
