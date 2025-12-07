@@ -10,38 +10,50 @@ contextBridge.exposeInMainWorld('electronAPI', {
   }
 });
 
-// Verificar suporte a speechSynthesis e notificar main process
-window.addEventListener('DOMContentLoaded', () => {
-  const hasSpeechSupport = 'speechSynthesis' in window;
-  ipcRenderer.send('speech-support-check', hasSpeechSupport);
+// Verificar suporte a speechSynthesis após DOM carregar
+// Usando ipcRenderer diretamente pois estamos no contexto do preload
+document.addEventListener('DOMContentLoaded', () => {
+  // Verificar se speechSynthesis existe no contexto isolado
+  try {
+    const hasSpeechSupport = typeof speechSynthesis !== 'undefined';
+    ipcRenderer.send('speech-support-check', hasSpeechSupport);
+  } catch (e) {
+    ipcRenderer.send('speech-support-check', false);
+  }
 });
 
-// Handlers para funcionalidades de texto
+// Handlers para funcionalidades de texto - executados no contexto do preload
 ipcRenderer.on('speak-text', (event, text) => {
-  if ('speechSynthesis' in window) {
-    // Parar qualquer fala em andamento
-    speechSynthesis.cancel();
-    
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'pt-BR';
-    utterance.rate = 1.0;
-    utterance.pitch = 1.0;
-    speechSynthesis.speak(utterance);
+  try {
+    if (typeof speechSynthesis !== 'undefined') {
+      speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'pt-BR';
+      utterance.rate = 1.0;
+      utterance.pitch = 1.0;
+      speechSynthesis.speak(utterance);
+    }
+  } catch (e) {
+    console.error('Speech synthesis error:', e);
   }
 });
 
 ipcRenderer.on('stop-speaking', () => {
-  if ('speechSynthesis' in window) {
-    speechSynthesis.cancel();
+  try {
+    if (typeof speechSynthesis !== 'undefined') {
+      speechSynthesis.cancel();
+    }
+  } catch (e) {
+    console.error('Stop speaking error:', e);
   }
 });
 
 ipcRenderer.on('show-writing-tools', (event, text) => {
-  // Dispara evento customizado para o React capturar
+  // Dispara evento customizado - precisa usar window do contexto isolado
   window.dispatchEvent(new CustomEvent('electron-writing-tools', { detail: { text } }));
 });
 
 ipcRenderer.on('summarize-text', (event, text) => {
-  // Dispara evento customizado para o React capturar
+  // Dispara evento customizado
   window.dispatchEvent(new CustomEvent('electron-summarize', { detail: { text } }));
 });
