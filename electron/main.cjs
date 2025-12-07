@@ -134,8 +134,8 @@ function createWindow() {
     minHeight: 600,
     icon: path.join(__dirname, '../public/gemini-icon.png'),
     webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
+      nodeIntegration: false,
+      contextIsolation: true,
       preload: path.join(__dirname, 'preload.cjs')
     },
     backgroundColor: '#1a1625',
