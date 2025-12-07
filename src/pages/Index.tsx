@@ -20,10 +20,8 @@ const Index = () => {
     if (window.electronAPI) {
       // Carrega Gemini na mesma janela do Electron
       window.electronAPI.openGemini(geminiUrl);
-    } else {
-      // No navegador, apenas redireciona (não abre nova aba)
-      window.location.href = geminiUrl;
     }
+    // No navegador/preview, não faz nada (Gemini não pode ser embutido em iframe)
   };
 
   // Auto-open após loading
