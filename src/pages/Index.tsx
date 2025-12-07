@@ -26,9 +26,9 @@ const Index = () => {
     }
   };
 
-  // Auto-open após loading
+  // Auto-open apenas no Electron após loading
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading && window.electronAPI) {
       const autoOpenTimer = setTimeout(() => {
         openGemini();
       }, 500);
