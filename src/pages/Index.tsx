@@ -36,10 +36,10 @@ const Index = () => {
   }, [isLoading]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-background via-background to-card">
+    <div className="flex flex-col min-h-screen bg-background text-foreground">
       {/* Loading Screen */}
       {isLoading && (
-        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center">
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-background">
           <div className="mb-8 animate-pulse">
             <img 
               src={geminiIcon} 
@@ -54,7 +54,7 @@ const Index = () => {
 
       {/* Main Content */}
       {!isLoading && (
-        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
+        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center bg-background">
           <div className="mb-8 relative">
             <div className="absolute inset-0 animate-pulse blur-2xl opacity-50 bg-gradient-gemini rounded-full"></div>
             <img 
