@@ -1,6 +1,14 @@
 const { app, BrowserWindow, Menu, shell, ipcMain, clipboard } = require('electron');
 const path = require('path');
 
+// Flag para verificar suporte a speechSynthesis
+let hasSpeechSupport = true;
+
+// Handler para receber informação de suporte a speech
+ipcMain.on('speech-support-check', (event, supported) => {
+  hasSpeechSupport = supported;
+});
+
 // Menu de contexto (clique direito)
 function createContextMenu(window) {
   window.webContents.on('context-menu', (event, params) => {
@@ -12,10 +20,53 @@ function createContextMenu(window) {
         { label: 'Copiar', role: 'copy' },
         { label: 'Recortar', role: 'cut', enabled: params.isEditable }
       );
+
+      // Adiciona separador antes das novas opções
+      menuTemplate.push({ type: 'separator' });
+
+      // Submenu Voz (apenas se o sistema suportar)
+      if (hasSpeechSupport) {
+        menuTemplate.push({
+          label: 'Voz',
+          submenu: [
+            {
+              label: 'Começar a falar',
+              click: () => {
+                window.webContents.send('speak-text', params.selectionText);
+              }
+            },
+            {
+              label: 'Parar de falar',
+              click: () => {
+                window.webContents.send('stop-speaking');
+              }
+            }
+          ]
+        });
+      }
+
+      // Separador antes de ferramentas
+      menuTemplate.push({ type: 'separator' });
+
+      // Mostrar Ferramentas de Escrita
+      menuTemplate.push({
+        label: 'Mostrar Ferramentas de Escrita',
+        click: () => {
+          window.webContents.send('show-writing-tools', params.selectionText);
+        }
+      });
+
+      // Resumir
+      menuTemplate.push({
+        label: 'Resumir',
+        click: () => {
+          window.webContents.send('summarize-text', params.selectionText);
+        }
+      });
     }
 
-    // Opções para campos editáveis
-    if (params.isEditable) {
+    // Opções para campos editáveis (sem texto selecionado)
+    if (params.isEditable && !params.selectionText) {
       menuTemplate.push(
         { label: 'Colar', role: 'paste' },
         { label: 'Selecionar Tudo', role: 'selectAll' }
