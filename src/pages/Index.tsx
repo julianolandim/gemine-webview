@@ -18,10 +18,11 @@ const Index = () => {
   const openGemini = () => {
     // Verifica se está rodando no Electron
     if (window.electronAPI) {
+      // Carrega Gemini na mesma janela do Electron
       window.electronAPI.openGemini(geminiUrl);
     } else {
-      // Fallback para navegador
-      window.open(geminiUrl, '_blank');
+      // No navegador, apenas redireciona (não abre nova aba)
+      window.location.href = geminiUrl;
     }
   };
 
