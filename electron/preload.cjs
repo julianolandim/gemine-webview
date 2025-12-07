@@ -1,13 +1,14 @@
-const { ipcRenderer } = require('electron');
+const { contextBridge, ipcRenderer } = require('electron');
 
-window.electronAPI = {
+// Expor API segura para o renderer
+contextBridge.exposeInMainWorld('electronAPI', {
   openGemini: (url) => {
     ipcRenderer.send('open-gemini', url);
   },
   goBackToApp: () => {
     ipcRenderer.send('go-back-to-app');
   }
-};
+});
 
 // Verificar suporte a speechSynthesis e notificar main process
 window.addEventListener('DOMContentLoaded', () => {
