@@ -27,9 +27,30 @@ ipcRenderer.on('speak-text', (event, text) => {
   try {
     if (typeof speechSynthesis !== 'undefined') {
       speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      // Usa a voz padrão do sistema operacional (não força idioma/voz específica)
-      speechSynthesis.speak(utterance);
+      
+      const speak = () => {
+        const utterance = new SpeechSynthesisUtterance(text);
+        const voices = speechSynthesis.getVoices();
+        
+        // Procura uma voz em pt-BR (português brasileiro) disponível no sistema
+        const ptBRVoice = voices.find(v => v.lang === 'pt-BR') || 
+                          voices.find(v => v.lang.startsWith('pt')) ||
+                          voices.find(v => v.default);
+        
+        if (ptBRVoice) {
+          utterance.voice = ptBRVoice;
+          utterance.lang = ptBRVoice.lang;
+        }
+        
+        speechSynthesis.speak(utterance);
+      };
+      
+      // Vozes podem carregar de forma assíncrona
+      if (speechSynthesis.getVoices().length > 0) {
+        speak();
+      } else {
+        speechSynthesis.onvoiceschanged = speak;
+      }
     }
   } catch (e) {
     console.error('Speech synthesis error:', e);
