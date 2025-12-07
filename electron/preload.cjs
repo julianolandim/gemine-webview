@@ -28,9 +28,7 @@ ipcRenderer.on('speak-text', (event, text) => {
     if (typeof speechSynthesis !== 'undefined') {
       speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'pt-BR';
-      utterance.rate = 1.0;
-      utterance.pitch = 1.0;
+      // Usa a voz padrão do sistema operacional (não força idioma/voz específica)
       speechSynthesis.speak(utterance);
     }
   } catch (e) {
